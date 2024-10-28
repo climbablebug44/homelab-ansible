@@ -1,0 +1,16 @@
+[Unit]
+Description=Consul
+Documentation=https://www.consul.io/
+
+[Service]
+Type=simple
+DynamicUser=yes
+User=consul
+StateDirectory=consul
+ExecStart=/opt/consul/bin/consul agent -bind {% raw %}'{{ GetInterfaceIP "vmbr0" }}'{% endraw %} -config-dir=/etc/consul.d/
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

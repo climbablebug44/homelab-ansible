@@ -1,6 +1,8 @@
 
 - name: My first play
   hosts: all
+  become: yes
+  remote_user: ansible
   tasks:
    - name: Ping my hosts
      ansible.builtin.ping:
@@ -8,9 +10,22 @@
    - name: Print message
      ansible.builtin.debug:
        msg: Hello world
+   - name: install apt packages
+     ansible.builtin.apt:
+       pkg:
+       - tmux
+       update_cache: yes
+   - name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.
+     ansible.builtin.apt:
+       name: zfsutils-linux
+       state: latest
+
 
 - name: install node-exporter
   hosts: all
   become: yes
+  remote_user: ansible
   roles:
-  - node-exporter
+#  - node-exporter
+  - consul-agent
+  - zfs-exporter

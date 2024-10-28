@@ -1,0 +1,19 @@
+---
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: reload zfs-exporter
+  systemd:
+    name: zfs-exporter.service
+    state: reloaded
+
+- name: restart zfs-exporter
+  systemd:
+    name: zfs-exporter.service
+    state: restarted
+
+- name: enable zfs-exporter
+  ansible.builtin.service:
+    name: zfs-exporter
+    enabled: yes

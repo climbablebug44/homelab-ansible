@@ -1,0 +1,42 @@
+---
+- name: Create ZFS Exporter Directory
+  ansible.builtin.file:
+    path: /opt/zfs_exporter
+    mode: 0755
+    state: directory
+
+- name: Check Version Installed
+  ansible.builtin.shell: |
+         set -o pipefail
+         if [ -f {{ zfs_exporter_bin }} ]; then
+             {{ zfs_exporter_bin }} --version 2>&1 | awk 'NR==1{print $3}'
+         fi
+  args:
+    executable: /bin/bash
+  register: zfs_exporter_version_check
+  changed_when: zfs_exporter_version_check.stdout != zfs_exporter_version
+
+- name: Download ZFS exporter
+  ansible.builtin.unarchive:
+    src: "{{ zfs_exporter_url }}"
+    dest: /opt/zfs_exporter
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+    mode: 0755
+  when: zfs_exporter_version_check.stdout != zfs_exporter_version
+  notify:
+    - restart zfs-exporter
+
+- name: Copy systemd unit file
+  ansible.builtin.template:
+    src: zfs-exporter.service.j2
+    dest: /etc/systemd/system/zfs-exporter.service
+    owner: "root"
+    group: "root"
+    mode: 0640
+    backup: no
+  notify:
+    - reload systemd daemon
+    - enable zfs-exporter
+    - restart zfs-exporter

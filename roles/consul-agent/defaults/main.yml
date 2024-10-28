@@ -1,0 +1,44 @@
+---
+consul_version: "1.16.1"
+
+# Consul log level
+consul_loglevel: "INFO"
+
+consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+consul_service_list:
+  - service:
+      name: node-exporter
+      port: 9100
+      checks:
+        - args: [ "/bin/nc", "-z", "localhost", "9100" ]
+          interval: 60s
+      tags:
+        - node_exporter
+        - scrape
+  - service:
+      name: zfs-exporter
+      port: 9134
+      checks:
+        - args: [ "/bin/nc", "-z", "localhost", "9134" ]
+          interval: 60s
+      tags:
+        - zfs_exporter
+        - scrape
+
+consul_retry_join:
+  - 192.168.3.3
+
+consul_dc: "dc1"
+
+consul_client_conf:
+  server: false
+  ui_config:
+    enabled: false
+  data_dir: /var/lib/consul
+  datacenter: "{{ consul_dc }}"
+  log_level: "{{ consul_loglevel }}"
+  retry_join: "{{ consul_retry_join }}"
+  enable_local_script_checks: true
+  node_meta: "{{ consul_node_metadata }}"
+
+consul_node_metadata:

@@ -1,0 +1,9 @@
+# defaults file for roles/zfs-exporter
+---
+zfs_exporter_version: "2.3.4"
+
+# zfs_exporter_url: https://github.com/pdf/zfs_exporter/releases/download/v{{ zfs_exporter_version }}/zfs_exporter-{{ zfs_exporter_version }}.linux-amd64.tar.gz>
+# https://github.com/pdf/zfs_exporter/releases/download/v2.3.4/zfs_exporter-2.3.4.linux-amd64.tar.gz
+
+zfs_exporter_url: https://github.com/pdf/zfs_exporter/releases/download/v2.3.4/zfs_exporter-2.3.4.linux-amd64.tar.gz
+zfs_exporter_bin: /opt/zfs_exporter/zfs_exporter

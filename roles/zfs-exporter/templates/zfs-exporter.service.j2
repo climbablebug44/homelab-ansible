@@ -1,0 +1,11 @@
+[Unit]
+Description=ZFS exporter
+
+[Service]
+Type=simple
+DynamicUser=yes
+User=zfs_exporter
+ExecStart={{ zfs_exporter_bin }}
+
+[Install]
+WantedBy=multi-user.target
