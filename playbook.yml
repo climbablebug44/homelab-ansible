@@ -13,6 +13,7 @@
    - name: install apt packages
      ansible.builtin.apt:
        pkg:
+       - fail2ban
        - tmux
        update_cache: yes
    - name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.
@@ -20,6 +21,17 @@
        name: zfsutils-linux
        state: latest
 
+   - name: Start fail2ban service
+     service:
+       name: fail2ban
+       state: started
+     become: true
+
+   - name: Enable fail2ban service
+     service:
+       name: fail2ban
+       enabled: true
+     become: true
 
 - name: install node-exporter
   hosts: all
