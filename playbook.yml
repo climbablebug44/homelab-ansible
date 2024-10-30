@@ -1,3 +1,18 @@
+- name: rpi
+  hosts: rpi
+  become: yes
+  remote_user: ansible
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+
+   - name: Print message
+     ansible.builtin.debug:
+       msg: Hello world
+  roles:
+  - node-exporter
+  - consul-agent
+  - zfs-exporter
 
 - name: My first play
   hosts: all
@@ -13,6 +28,7 @@
    - name: install apt packages
      ansible.builtin.apt:
        pkg:
+       - lshw
        - fail2ban
        - tmux
        update_cache: yes
