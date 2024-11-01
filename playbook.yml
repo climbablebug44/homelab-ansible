@@ -1,18 +1,18 @@
-- name: rpi
-  hosts: rpi
-  become: yes
-  remote_user: ansible
-  tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
+#- name: rpi
+#  hosts: rpi
+#  become: yes
+#  remote_user: ansible
+#  tasks:
+#   - name: Ping my hosts
+#     ansible.builtin.ping:
 
-   - name: Print message
-     ansible.builtin.debug:
-       msg: Hello world
-  roles:
-  - node-exporter
-  - consul-agent
-  - zfs-exporter
+#   - name: Print message
+#     ansible.builtin.debug:
+#       msg: Hello world
+#  roles:
+#  - node-exporter
+#  - consul-agent
+#  - zfs-exporter
 
 - name: My first play
   hosts: all
@@ -25,6 +25,19 @@
    - name: Print message
      ansible.builtin.debug:
        msg: Hello world
+
+   - name: Disable IPv6 with sysctl
+    ansible.posix.sysctl:
+      name: "{{ item }}"
+      value: "1"
+      state: "present"
+      reload: "yes"
+    with_items:
+    - net.ipv6.conf.all.disable_ipv6
+    - net.ipv6.conf.default.disable_ipv6
+    - net.ipv6.conf.lo.disable_ipv6
+
+
    - name: install apt packages
      ansible.builtin.apt:
        pkg:
