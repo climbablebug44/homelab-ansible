@@ -4,8 +4,8 @@
     state: present
 
 - name: copy upstart script
-  template: 
-    src: gpg.j2 
+  ansible.builtin.copy:
+    src: files/zerotier.gpg
     dest: "/usr/share/keyrings/zerotier-debian-package-key.gpg"
     mode: '0644'
     force: true
