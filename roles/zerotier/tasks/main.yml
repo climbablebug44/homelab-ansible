@@ -14,3 +14,9 @@
   ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/zerotier-debian-package-key.gpg] http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
     state: present
+
+- name: install
+  ansible.builtin.apt:
+    pkg:
+    - zerotier-one
+    update_cache: yes
