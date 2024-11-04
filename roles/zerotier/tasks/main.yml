@@ -20,3 +20,6 @@
     pkg:
     - zerotier-one
     update_cache: yes
+
+- name: join
+  ansible.builtin.command: zerotier-cli join {{ network_id }} 
