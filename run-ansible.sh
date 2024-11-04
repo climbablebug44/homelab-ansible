@@ -1,1 +1,5 @@
-ansible-playbook -i inventory/hosts.yml playbook.yml --key-file "/home/runner/.ssh/id_rsa" -v -e @vault/zerotier.yml
+ansible-playbook -i inventory/hosts.yml playbook.yml \
+ --key-file "/home/runner/.ssh/id_rsa" \
+ -v \
+ -e @vault/zerotier.yml \
+ --ask-vault-pass
