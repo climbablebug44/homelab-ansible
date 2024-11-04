@@ -23,6 +23,7 @@
    - name: install apt packages
      ansible.builtin.apt:
        pkg:
+       - iperf
        - lshw
        - fail2ban
        - tmux
@@ -51,6 +52,6 @@
   remote_user: ansible
   roles:
   - zerotier
-#  - node-exporter
+  - node-exporter
   - consul-agent
   - zfs-exporter
