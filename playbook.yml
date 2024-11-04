@@ -43,12 +43,14 @@
        name: fail2ban
        enabled: true
      become: true
+    
 
 - name: install node-exporter
   hosts: all
   become: yes
   remote_user: ansible
   roles:
+  - zerotier
 #  - node-exporter
   - consul-agent
   - zfs-exporter

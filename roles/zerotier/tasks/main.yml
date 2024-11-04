@@ -1,0 +1,16 @@
+- name: Install gpg
+  ansible.builtin.package:
+    name: gpg
+    state: present
+
+- name: copy upstart script
+  template: 
+    src: gpg.j2 
+    dest: "/usr/share/keyrings/zerotier-debian-package-key.gpg"
+    mode: '0644'
+    force: true
+
+- name: Add source repository into sources list
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/zerotier-debian-package-key.gpg] http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+    state: present
