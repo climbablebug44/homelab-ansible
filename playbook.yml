@@ -27,6 +27,7 @@
        - lshw
        - fail2ban
        - tmux
+       - zram-tools
        update_cache: yes
    - name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.
      ansible.builtin.apt:
@@ -44,7 +45,17 @@
        name: fail2ban
        enabled: true
      become: true
-    
+   - name: zram confi
+     copy:
+       dest: /etc/default/zramswap
+       content: |-
+         ALGO=zstd
+         PERCENT=60
+
+   - name: reload zram
+     ansible.builtin.service:
+       name: zramswap
+       state: reloaded
 
 - name: install node-exporter
   hosts: all
